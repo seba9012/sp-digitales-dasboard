@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Rutas accesibles sin sesión. /api/auth/login TIENE que estar acá:
+// si no, el middleware redirige el POST del formulario a /login y nunca se emite la cookie.
+const PUBLIC_PATHS = ["/login", "/api/auth/login"];
+
 async function expectedToken() {
   const raw = `${process.env.ADMIN_PASSWORD ?? ""}:${process.env.AUTH_SECRET ?? ""}`;
   const bytes = new TextEncoder().encode(raw);
@@ -8,7 +12,10 @@ async function expectedToken() {
 }
 
 export async function middleware(req: NextRequest) {
-  if (req.nextUrl.pathname.startsWith("/login")) return NextResponse.next();
+  const { pathname } = req.nextUrl;
+  if (PUBLIC_PATHS.some(p => pathname === p || pathname.startsWith(`${p}/`))) {
+    return NextResponse.next();
+  }
 
   const session = req.cookies.get("sp_admin_session")?.value;
   const expected = await expectedToken();
