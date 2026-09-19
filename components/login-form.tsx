@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Button, Input, LiveDot } from "./ui";
+import { Button, Input } from "./ui";
 
 export function LoginForm() {
   const [password, setPassword] = useState("");
@@ -43,16 +43,14 @@ export function LoginForm() {
   }
 
   return (
-    <main className="dark grid min-h-screen place-items-center bg-[var(--bg)] p-5 text-[var(--ink)]">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 flex items-center gap-2 text-xs text-[var(--ink-dim)]">
-          <LiveDot />
-          <span>Bot en línea · SP Digitales</span>
+    <main className="grid min-h-screen place-items-center p-5">
+      <div className="w-full max-w-sm rounded-3xl border border-[var(--border)] bg-[var(--card)] p-7 shadow-xl">
+        <div className="mb-8">
+          <div className="grid size-12 place-items-center rounded-2xl bg-[var(--brand)] font-black text-white">SP</div>
+          <h1 className="mt-5 text-2xl font-black">SP Digitales</h1>
+          <p className="mt-1 text-sm text-[var(--muted)]">Acceso al CRM</p>
         </div>
-        <h1 className="font-display text-4xl font-medium leading-none">Centro de<br/>control</h1>
-        <p className="mt-3 text-sm text-[var(--ink-dim)]">Ventas, clientes y comportamiento del bot, en un solo lugar.</p>
-
-        <form onSubmit={submit} className="mt-8 space-y-3 border-t border-[var(--line)] pt-6">
+        <form onSubmit={submit} className="space-y-4">
           <Input
             type="password"
             placeholder="Contraseña de administrador"
@@ -60,8 +58,8 @@ export function LoginForm() {
             onChange={e => setPassword(e.target.value)}
             autoFocus
           />
-          {error && <p className="text-sm text-[var(--danger)]">{error}</p>}
-          <Button className="w-full" disabled={loading}>{loading ? "Ingresando…" : "Ingresar"}</Button>
+          {error && <p className="text-sm text-rose-600">{error}</p>}
+          <Button className="w-full" disabled={loading}>{loading ? "Ingresando..." : "Ingresar"}</Button>
         </form>
       </div>
     </main>

@@ -29,16 +29,18 @@ export interface VentaRevendedor {
   fechaVenta: string; revendedor: string; clienteFinal: string; plan: string; monto: number;
   correo: string; contrasena: string; activacion: string; vencimiento: string; perfiles: string;
   filaCuenta: string; estado: string; correoAnterior: string;
-  /** Fila real en "Ventas revendedor" (no es una columna de la hoja, se calcula al leer). */
-  filaVenta?: number;
 }
 export interface Evento { fecha: string; hora: string; tipo: EventoTipo; numero: string; nombre: string; detalle: string; }
 export interface Conocimiento { id: string; categoria: string; titulo: string; contenido: string; activo: SiNo; actualizado: string; }
 export interface EstadoBot { ultimaActividad: string; }
 export interface ClienteRevision { whatsapp: string; }
+export interface Configuracion { precio1: number; precio2: number; precio3: number; precio4: number; descuentoReventa: number; }
+export type ComandoTipo = "FORZAR_VENCIMIENTOS" | string;
+export type ComandoEstado = "PENDIENTE" | "HECHO" | "ERROR" | string;
+export interface Comando { fila: number; id: string; tipo: ComandoTipo; estado: ComandoEstado; creado: string; resultado: string; }
 export interface CRMData {
   clientes: Cliente[]; historial: HistorialMensaje[]; cuentas: Cuenta[]; cuentasCambiadas: CuentaCambiada[];
   imagenes: Imagen[]; ventasRevendedor: VentaRevendedor[]; eventos: Evento[]; conocimiento: Conocimiento[];
-  estadoBot: EstadoBot; enRevision: ClienteRevision[];
+  estadoBot: EstadoBot; enRevision: ClienteRevision[]; configuracion: Configuracion; comandos: Comando[];
 }
 export interface DashboardStats { ingresosMes:number; clientesActivos:number; vencen3Dias:number; vencidos:number; pendientes:number; pagadosSinEntregar:number; tasaRenovacion:number; perfilesLibres:number; perfilesOcupados:number; }

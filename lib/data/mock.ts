@@ -81,5 +81,7 @@ export const mockData: CRMData = {
     { id: "K-003", categoria: "políticas", titulo: "Garantía", contenido: "Si una cuenta presenta un problema, se gestiona el cambio o la reposición de días según disponibilidad.", activo: "SÍ", actualizado: arDate(-2) },
     { id: "K-004", categoria: "problemas frecuentes", titulo: "No puede ingresar", contenido: "Solicitar captura y derivar si no se resuelve con las instrucciones disponibles.", activo: "SÍ", actualizado: arDate(-3) }
   ],
-  estadoBot: { ultimaActividad: new Date(Date.now() - 45_000).toISOString() }
+  estadoBot: { ultimaActividad: new Date(Date.now() - 45_000).toISOString() },
+  configuracion: { precio1: 3500, precio2: 4200, precio3: 5000, precio4: 5800, descuentoReventa: 300 },
+  comandos: []
 };

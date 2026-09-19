@@ -73,12 +73,11 @@ Cuando se conecte Sheets, `DATA_SOURCE=sheets` y se implementará el repositorio
 - Cuentas: ID Cuenta, Email, Contraseña, Perfil 1 a 5.
 - Cuentas cambiadas: Email, Contraseña, PIN.
 - Ventas revendedor: fecha de venta, revendedor, cliente final, plan, monto, correo, contraseña, activación, vencimiento, perfiles, estado.
-- NUEVAS / Eventos: fecha, hora, tipo, numero, nombre, detalle.
-- NUEVAS / Conocimiento: id, categoria, titulo, contenido, activo, actualizado.
-- NUEVAS / Estado: heartbeat con última actividad del bot.
-
-### Nota sobre NUEVAS
-El adaptador asume que `NUEVAS` es una pestaña que contiene los bloques de Eventos, Conocimiento y Estado. Si en tu archivo real son tres pestañas separadas, no se agregan columnas: se cambian únicamente los nombres de rango en `lib/data/sheets.ts`.
+- Eventos: fecha, hora, tipo, numero, nombre, detalle (la crea el bot solo).
+- Conocimiento: id, categoria, titulo, contenido, activo, actualizado (la crea el bot solo).
+- Estado: heartbeat con última actividad del bot (la crea el bot solo).
+- Configuracion: clave, valor — precios editables desde el CRM (la crea el bot solo).
+- Comandos: id, tipo, estado, creado, resultado — acciones remotas tipo "forzar avisos de vencimiento" (la crea el bot solo).
 
 ## Seguridad
 
@@ -90,7 +89,22 @@ El adaptador asume que `NUEVAS` es una pestaña que contiene los bloques de Even
 
 ## Nota sobre el bot
 
-El CRM no se conecta a `whatsapp-web.js`. Google Sheets funciona como puente. Esto permite que el dashboard sea útil aunque la PC que ejecuta el bot esté apagada.
+El CRM no se conecta a `whatsapp-web.js` directamente. Google Sheets funciona como puente en los dos sentidos:
+
+- El **bot** (index.js actualizado, sección "PUENTE CON EL CRM") crea y mantiene 5 pestañas nuevas: `Eventos`, `Estado`, `Conocimiento`, `Configuracion` y `Comandos`. Las crea solo la primera vez que arranca si no existen.
+- El **CRM** lee todas las pestañas (las de siempre + estas 5) en cada carga, y escribe directamente en `Clientes`, `Conocimiento`, `Configuracion` y `Comandos` cuando usás el panel (crear/editar/borrar cliente, agregar conocimiento, cambiar precios, forzar avisos de vencimiento).
+
+Esto permite que el dashboard sea útil aunque la PC que ejecuta el bot esté apagada (vas a ver "Bot offline" y los últimos datos que se sincronizaron), y que las acciones que sí necesitan al bot corriendo (mandar mensajes reales de WhatsApp) queden como un "comando pendiente" hasta que el bot vuelva a estar online y lo ejecute.
+
+### Cómo funciona cada pestaña nueva
+
+- **Eventos** (fecha, hora, tipo, numero, nombre, detalle): el bot manda ahí cada evento que ya venía guardando internamente (ventas, incidencias resueltas, derivaciones, etc.), cada 1 minuto. Alimenta el dashboard de "Comportamiento del bot".
+- **Estado** (ultimaActividad, estado): heartbeat del bot, cada 1 minuto. El CRM lo usa para mostrar "Bot online"/"Bot offline".
+- **Conocimiento** (id, categoria, titulo, contenido, activo, actualizado): lo que cargues acá desde el CRM, el bot lo lee cada 1 minuto y lo suma de verdad al prompt que usa para responder — no es solo decorativo.
+- **Configuracion** (clave, valor): hoy solo tiene los precios (`precio_1` a `precio_4`, `descuento_reventa`). Cambiarlos desde el CRM actualiza lo que cobra el bot en menos de 1 minuto, sin tocar código.
+- **Comandos** (id, tipo, estado, creado, resultado): el CRM agrega una fila con estado `PENDIENTE` cuando apretás una acción (por ahora: "Forzar avisos de vencimiento"); el bot la ve, la ejecuta de verdad (manda los WhatsApp), y escribe el resultado ahí mismo.
+
+Si el service account de Google no tiene permiso de "Editor" sobre la hoja (no solo "Viewer"), tanto el bot como el CRM van a fallar al intentar crear o escribir en estas pestañas.
 
 ## Fase 2 — estructura real de SP Digitales
 
@@ -104,6 +118,6 @@ La adaptación del adaptador de Google Sheets se hizo contra el archivo real ent
 - `Ventas revendedor` — A:M (incluye `Fila cuenta` y `Correo anterior`)
 - `En revisión` — A:A
 
-La hoja compartida actualmente **no contiene** `NUEVAS`, `Eventos`, `Conocimiento` ni `Estado`. Por eso el CRM no inventa esas hojas: esas colecciones quedan vacías hasta que el bot las cree o se confirme otra ubicación.
+Con el bot actualizado (sección "PUENTE CON EL CRM" en index.js), las pestañas `Eventos`, `Conocimiento`, `Estado`, `Configuracion` y `Comandos` se crean solas la primera vez que el bot arranca — no hace falta crearlas a mano. Con un bot viejo sin ese código, esas colecciones simplemente se leen vacías (el CRM no se rompe, solo no tiene esos datos).
 
 El `GOOGLE_SHEET_ID` del `.env.example` corresponde al archivo proporcionado en esta fase.
