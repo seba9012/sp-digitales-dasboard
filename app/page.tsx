@@ -131,7 +131,7 @@ function MiniStat({ label, value }: { label: string; value: string }) {
 function Kpi({ icon: Icon, label, value, sub, tone }: { icon: any; label: string; value: string; sub: string; tone?: "warning" | "danger" }) {
   const iconColor = tone === "warning" ? "var(--signal)" : tone === "danger" ? "var(--danger)" : "var(--ink-dim)";
   return (
-    <Card className="p-4" accent={tone}>
+    <Card className="p-4" accent={tone === "warning" ? "signal" : tone}>
       <div className="flex items-start justify-between">
         <div>
           <div className="text-xs font-medium text-[var(--ink-dim)]">{label}</div>
