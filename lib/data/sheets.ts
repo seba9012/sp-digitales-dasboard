@@ -13,28 +13,9 @@ const ranges = {
 } as const;
 
 function sheetsClient() {
-  // Preferido: pegar el archivo .json de la cuenta de servicio completo
-  // en GOOGLE_SERVICE_ACCOUNT_JSON. Evita todos los problemas de copiar
-  // el email y la clave privada por separado (saltos de línea rotos,
-  // comillas de más, etc.) — JSON.parse se encarga de interpretar los
-  // \n correctamente.
-  const rawJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+  const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n");
   const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-  let email: string | undefined;
-  let privateKey: string | undefined;
-  if (rawJson) {
-    try {
-      const parsed = JSON.parse(rawJson);
-      email = parsed.client_email;
-      privateKey = parsed.private_key;
-    } catch {
-      throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON no es un JSON válido.");
-    }
-  } else {
-    // Alternativa (compatibilidad): variables separadas.
-    email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-    privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(/\\n/g, "\n");
-  }
   if (!email || !privateKey || !spreadsheetId) throw new Error("Faltan variables de Google Sheets.");
   const auth = new google.auth.JWT({ email, key: privateKey, scopes: ["https://www.googleapis.com/auth/spreadsheets"] });
   return { api: google.sheets({ version: "v4", auth }), spreadsheetId };

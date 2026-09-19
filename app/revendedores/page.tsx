@@ -3,7 +3,7 @@ import { SectionPage } from "@/components/section-page";
 import { Card } from "@/components/ui";
 import { money } from "@/lib/utils";
 
-export const dynamic="force-dynamic";
+export const revalidate=60;
 export default async function Revendedores(){
  const d=await getCRMRepository().getAll();
  const map=new Map<string,{ventas:number;ingresos:number}>();

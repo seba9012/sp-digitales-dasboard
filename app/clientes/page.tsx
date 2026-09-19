@@ -2,7 +2,7 @@ import { getCRMRepository } from "@/lib/data";
 import { AppShell } from "@/components/app-shell";
 import { ClientsClient } from "@/components/clients-client";
 
-export const dynamic="force-dynamic";
+export const revalidate = 30;
 
 export default async function ClientesPage(){
  const data=await getCRMRepository().getAll();

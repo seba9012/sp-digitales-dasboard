@@ -2,7 +2,7 @@ import { getCRMRepository } from "@/lib/data";
 import { SectionPage } from "@/components/section-page";
 import { Card, Badge } from "@/components/ui";
 
-export const dynamic="force-dynamic";
+export const revalidate=60;
 export default async function Inventario(){
  const d=await getCRMRepository().getAll();
  const free=d.cuentas.flatMap(c=>c.perfiles).filter(p=>p==="libre").length;

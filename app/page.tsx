@@ -6,7 +6,7 @@ import { Badge, Card } from "@/components/ui";
 import { Activity, AlertTriangle, CheckCircle2, Clock3, DollarSign, PackageCheck, Users, Wifi, WifiOff } from "lucide-react";
 import { OverviewCharts } from "@/components/overview-charts";
 
-export const dynamic="force-dynamic";
+export const revalidate = 60;
 
 function stats(clientes: Cliente[], cuentas: Awaited<ReturnType<ReturnType<typeof getCRMRepository>["getAll"]>>["cuentas"]): DashboardStats {
   const now = new Date();

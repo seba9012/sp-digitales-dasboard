@@ -3,7 +3,7 @@ import { SectionPage } from "@/components/section-page";
 import { Card, Badge } from "@/components/ui";
 import { money, dateAR } from "@/lib/utils";
 
-export const dynamic="force-dynamic";
+export const revalidate=60;
 export default async function Ventas(){
  const d=await getCRMRepository().getAll();
  const total=d.ventasRevendedor.reduce((s,v)=>s+v.monto,0);

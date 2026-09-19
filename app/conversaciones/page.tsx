@@ -2,7 +2,7 @@ import { getCRMRepository } from "@/lib/data";
 import { SectionPage } from "@/components/section-page";
 import { Card, Badge } from "@/components/ui";
 
-export const dynamic="force-dynamic";
+export const revalidate=30;
 export default async function Conversaciones(){
  const d=await getCRMRepository().getAll();
  const nums=[...new Set(d.historial.map(m=>m.numero))];
