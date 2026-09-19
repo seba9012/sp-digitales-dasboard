@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/*
+  Identidad visual — "sala de control".
+  SP Digitales vive de un bot que nunca duerme: la referencia es un panel de
+  monitoreo nocturno, no un SaaS genérico. Fondo grafito, un ámbar de señal
+  para lo que necesita atención y un verde-agua de pulso para lo que está
+  sano y en movimiento.
+*/
+:root {
+  --bg: #f4f3ef;
+  --bg-soft: #eae8e2;
+  --card: #ffffff;
+  --card-raised: #ffffff;
+  --ink: #16181c;
+  --ink-dim: #6b6f76;
+  --line: #dedbd3;
+  --signal: #b3690c;
+  --signal-soft: #f4e3cc;
+  --pulse: #0f7a68;
+  --pulse-soft: #d9ede8;
+  --danger: #af2e2e;
+  --danger-soft: #f4dcdb;
+  --shadow: 0 1px 2px rgba(22, 24, 28, 0.04);
+  /* alias de compatibilidad con el naming anterior */
+  --brand: var(--signal);
+  --muted: var(--ink-dim);
+  --border: var(--line);
+  --background: var(--bg);
+  --foreground: var(--ink);
+}
+
+.dark {
+  --bg: #0b0d10;
+  --bg-soft: #14171b;
+  --card: #14171b;
+  --card-raised: #1a1e23;
+  --ink: #edece7;
+  --ink-dim: #8b8f97;
+  --line: #262a30;
+  --signal: #e8a33d;
+  --signal-soft: rgba(232, 163, 61, 0.14);
+  --pulse: #3fb8a3;
+  --pulse-soft: rgba(63, 184, 163, 0.14);
+  --danger: #e2665f;
+  --danger-soft: rgba(226, 102, 95, 0.14);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --brand: var(--signal);
+  --muted: var(--ink-dim);
+  --border: var(--line);
+  --background: var(--bg);
+  --foreground: var(--ink);
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-feature-settings: "tnum" 1, "cv11" 1;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+::selection { background: var(--signal-soft); }
+
+.font-display { font-family: var(--font-display), Georgia, serif; }
+.tabular { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+.pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
