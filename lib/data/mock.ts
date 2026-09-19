@@ -65,7 +65,8 @@ export const mockData: CRMData = {
   ventasRevendedor: [
     { fechaVenta: arDate(-4), revendedor: "Revendedor Norte", clienteFinal: "Lucía Fernández", plan: "Netflix Crack 2", monto: 5200, correo: "lucia@example.com", contrasena: "NetflixDemo01", activacion: arDate(-4), vencimiento: arDate(2), perfiles: "2", filaCuenta: "2", estado: "ACTIVA", correoAnterior: "" },
     { fechaVenta: arDate(-12), revendedor: "Revendedor Centro", clienteFinal: "Nicolás Gómez", plan: "Netflix Crack 3", monto: 6200, correo: "nico@example.com", contrasena: "NetflixDemo06", activacion: arDate(-12), vencimiento: arDate(18), perfiles: "3", filaCuenta: "3", estado: "ACTIVA", correoAnterior: "" },
-    { fechaVenta: arDate(-31), revendedor: "Revendedor Norte", clienteFinal: "Carolina Pérez", plan: "Netflix Crack 4", monto: 7000, correo: "caro@example.com", contrasena: "NetflixDemo03", activacion: arDate(-30), vencimiento: arDate(-1), perfiles: "4", filaCuenta: "4", estado: "VENCIDA", correoAnterior: "anterior@example.com" },
+    { fechaVenta: arDate(-31), revendedor: "Revendedor Norte", clienteFinal: "Carolina Pérez", plan: "Netflix Crack 4", monto: 7000, correo: "caro@example.com", contrasena: "NetflixDemo03", activacion: arDate(-30), vencimiento: arDate(-1), perfiles: "4", filaCuenta: "4", estado: "VENCIDA", correoAnterior: "anterior@example.com" }
+  ],
   eventos: [
     { fecha: arDate(-1), hora: "09:12", tipo: "COMPROBANTE", numero: "5491160010004", nombre: "Diego Acosta", detalle: "Comprobante recibido" },
     { fecha: arDate(-1), hora: "09:15", tipo: "ENTREGA_COMPRA", numero: "5491160010001", nombre: "Lucía Fernández", detalle: "Cuenta entregada" },

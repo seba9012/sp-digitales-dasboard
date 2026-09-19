@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { LayoutDashboard, Users, MessageSquare, Bot, WalletCards, Boxes, UserRoundCog, Brain, Menu, X, Moon, Sun, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "./ui";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -32,37 +31,56 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-[var(--background)]/90 backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--bg)]/92 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between px-4 lg:px-6">
           <div className="flex items-center gap-3">
-            <button onClick={() => setOpen(v=>!v)} className="rounded-xl p-2 lg:hidden" aria-label="Menú">
-              {open ? <X size={21}/> : <Menu size={21}/>}
+            <button onClick={() => setOpen(v => !v)} className="rounded-md p-2 lg:hidden" aria-label="Menú">
+              {open ? <X size={20} /> : <Menu size={20} />}
             </button>
-            <div className="flex items-center gap-2">
-              <div className="grid size-9 place-items-center rounded-xl bg-[var(--brand)] text-sm font-black text-white">SP</div>
-              <div className="hidden sm:block"><div className="font-bold">SP Digitales</div><div className="text-[11px] text-[var(--muted)]">CRM</div></div>
-            </div>
+            <Link href="/" className="flex items-center gap-2.5">
+              <span className="font-display grid size-8 place-items-center rounded-md border border-[var(--line)] text-sm font-medium">SP</span>
+              <span className="hidden sm:block">
+                <span className="font-display block text-[15px] leading-none">SP Digitales</span>
+                <span className="block text-[11px] leading-none text-[var(--ink-dim)] mt-1">Centro de control</span>
+              </span>
+            </Link>
           </div>
-          <div className="flex items-center gap-2">
-            <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="rounded-xl border border-[var(--border)] p-2.5">
-              {theme === "dark" ? <Sun size={18}/> : <Moon size={18}/>}
+          <div className="flex items-center gap-1.5">
+            <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="rounded-md border border-[var(--line)] p-2.5 hover:bg-[var(--bg-soft)]" aria-label="Cambiar tema">
+              {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <button onClick={logout} className="rounded-xl border border-[var(--border)] p-2.5" title="Cerrar sesión"><LogOut size={18}/></button>
+            <button onClick={logout} className="rounded-md border border-[var(--line)] p-2.5 hover:bg-[var(--bg-soft)]" title="Cerrar sesión" aria-label="Cerrar sesión">
+              <LogOut size={17} />
+            </button>
           </div>
         </div>
       </header>
 
-      <aside className={cn("fixed inset-y-16 left-0 z-20 w-72 border-r border-[var(--border)] bg-[var(--background)] p-4 transition-transform lg:translate-x-0", open ? "translate-x-0" : "-translate-x-full")}>
-        <nav className="space-y-1">
-          {nav.map(([href, label, Icon]) => (
-            <Link key={href} href={href} onClick={()=>setOpen(false)} className={cn("flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium", pathname===href ? "bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-300" : "text-[var(--muted)] hover:bg-black/5 dark:hover:bg-white/5")}>
-              <Icon size={18}/>{label}
-            </Link>
-          ))}
+      <aside className={cn("fixed inset-y-16 left-0 z-20 w-64 overflow-y-auto border-r border-[var(--line)] bg-[var(--bg)] p-3 transition-transform lg:translate-x-0", open ? "translate-x-0" : "-translate-x-full")}>
+        <nav className="space-y-0.5">
+          {nav.map(([href, label, Icon]) => {
+            const active = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "flex items-center gap-3 rounded-md border-l-2 px-3 py-2.5 text-sm font-medium transition-colors",
+                  active
+                    ? "border-l-[var(--signal)] bg-[var(--bg-soft)] text-[var(--ink)]"
+                    : "border-l-transparent text-[var(--ink-dim)] hover:bg-[var(--bg-soft)] hover:text-[var(--ink)]"
+                )}
+              >
+                <Icon size={17} />
+                {label}
+              </Link>
+            );
+          })}
         </nav>
       </aside>
 
-      <main className="lg:pl-72">
+      <main className="lg:pl-64">
         <div className="mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-8">{children}</div>
       </main>
     </div>

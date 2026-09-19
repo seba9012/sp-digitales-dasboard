@@ -2,7 +2,7 @@ import { getCRMRepository } from "@/lib/data";
 import { SectionPage } from "@/components/section-page";
 import { Card, Badge } from "@/components/ui";
 
-export const revalidate=60;
+export const dynamic="force-dynamic";
 export default async function Inventario(){
  const d=await getCRMRepository().getAll();
  const free=d.cuentas.flatMap(c=>c.perfiles).filter(p=>p==="libre").length;
@@ -14,4 +14,4 @@ export default async function Inventario(){
  <Card className="mt-6 p-5"><h2 className="font-bold">Cuentas cambiadas</h2><div className="mt-4 space-y-2">{d.cuentasCambiadas.map((c,i)=><div key={i} className="flex justify-between rounded-xl border border-[var(--border)] p-3 text-sm"><span>{c.email}</span><span className="text-[var(--muted)]">PIN: ••••</span></div>)}</div></Card>
  </SectionPage>
 }
-function Metric({l,v}:{l:string;v:number}){return <Card className="p-5"><div className="text-xs text-[var(--muted)]">{l}</div><div className="mt-2 text-2xl font-black">{v}</div></Card>}
+function Metric({l,v}:{l:string;v:number}){return <Card className="p-5"><div className="text-xs text-[var(--muted)]">{l}</div><div className="mt-2 text-2xl font-display font-medium">{v}</div></Card>}

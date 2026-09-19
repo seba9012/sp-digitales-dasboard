@@ -29,6 +29,8 @@ export interface VentaRevendedor {
   fechaVenta: string; revendedor: string; clienteFinal: string; plan: string; monto: number;
   correo: string; contrasena: string; activacion: string; vencimiento: string; perfiles: string;
   filaCuenta: string; estado: string; correoAnterior: string;
+  /** Fila real en "Ventas revendedor" (no es una columna de la hoja, se calcula al leer). */
+  filaVenta?: number;
 }
 export interface Evento { fecha: string; hora: string; tipo: EventoTipo; numero: string; nombre: string; detalle: string; }
 export interface Conocimiento { id: string; categoria: string; titulo: string; contenido: string; activo: SiNo; actualizado: string; }

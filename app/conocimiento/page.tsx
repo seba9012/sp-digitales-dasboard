@@ -2,7 +2,7 @@ import { getCRMRepository } from "@/lib/data";
 import { SectionPage } from "@/components/section-page";
 import { Card, Badge } from "@/components/ui";
 
-export const revalidate=60;
+export const dynamic="force-dynamic";
 export default async function Conocimiento(){
  const d=await getCRMRepository().getAll();
  return <SectionPage kicker="Automatización" title="Conocimiento del bot" description="CRUD preparado para la hoja NUEVAS / Conocimiento.">
