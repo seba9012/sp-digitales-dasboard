@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 const display = Fraunces({
   subsets: ["latin"],
   variable: "--font-display",
-  axes: ["opsz", "SOFT", "WONK"],
   weight: ["400", "500", "600"],
 });
 
